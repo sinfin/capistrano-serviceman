@@ -1,5 +1,0 @@
-check process <%= monit_process %> with pidfile <%= fetch(:sidekiq_pid) %>
-  if memory > 500 MB for 3 cycles then restart
-  restart program = "<%= rvm_do("systemctl restart #{systemd_service}", role) %>"
-
-

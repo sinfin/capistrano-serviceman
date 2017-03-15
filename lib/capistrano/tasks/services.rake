@@ -1,5 +1,5 @@
-require 'capistrano/sinfin/systemd_service'
-require 'capistrano/sinfin/service_tools'
+require 'capistrano/serviceman/systemd_service'
+require 'capistrano/serviceman/service_tools'
 
 namespace :load do
   task :defaults do
@@ -8,7 +8,7 @@ namespace :load do
 end
 
 namespace :systemd do
-  include Capistrano::Sinfin::ServiceTools
+  include Capistrano::Serviceman::ServiceTools
 
   desc "Upload systemd .service file and refresh daemon"
   task :install => 'config:local_dirs' do

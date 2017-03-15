@@ -1,5 +1,5 @@
-require 'capistrano/sinfin/systemd_service'
-require 'capistrano/sinfin/service_tools'
+require 'capistrano/serviceman/systemd_service'
+require 'capistrano/serviceman/service_tools'
 
 namespace :monit do
   include Capistrano::Serviceman::Tools

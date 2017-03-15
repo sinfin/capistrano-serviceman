@@ -27,7 +27,7 @@ module Capistrano::Rails::Services::Tools
     Dir["#{config_dir}/#{role_name}/*.service.erb"].each do |f|
       type = File.basename(f, '.service.erb')
       app = fetch(:application)
-      yield Capistrano::Sinfin::SystemdService.new(
+      yield Capistrano::Serviceman::SystemdService.new(
               type: type,
               role_name: role_name,
               app: app,

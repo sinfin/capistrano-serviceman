@@ -1,7 +1,7 @@
 require 'fileutils'
-require_relative '../../../../capistrano-sinfin'
+require_relative '../../../../capistrano-serviceman'
 
-class Capistrano::Sinfin::ServicesGenerator < Rails::Generators::Base
+class Capistrano::ServicemanGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
   class_option :types, type: :array, required: false,
@@ -11,7 +11,7 @@ class Capistrano::Sinfin::ServicesGenerator < Rails::Generators::Base
                default: %w( production staging )
 
   def puma
-    return if service_disabled?(:puma)
+    return if disabled?(:puma)
 
     stages.each do |stage|
       copy_file 'puma.service.erb',
@@ -22,7 +22,7 @@ class Capistrano::Sinfin::ServicesGenerator < Rails::Generators::Base
   end
 
   def sidekiq
-    return if service_disabled?(:sidekiq)
+    return if disabled?(:sidekiq)
 
     stages.each do |stage|
       copy_file 'sidekiq.service.erb',
@@ -38,7 +38,7 @@ class Capistrano::Sinfin::ServicesGenerator < Rails::Generators::Base
     options[:stages]
   end
 
-  def service_disabled?(name)
+  def disabled?(name)
     !options[:types].include?(name.to_s)
   end
 
@@ -60,7 +60,7 @@ class Capistrano::Sinfin::ServicesGenerator < Rails::Generators::Base
 
   def ruby_version
     `cat .ruby-version`.strip.presence ||
-      '2.3.1'
+      '2.4.0'
   end
 
 end

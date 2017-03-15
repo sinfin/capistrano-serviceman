@@ -8,7 +8,7 @@ namespace :load do
 end
 
 namespace :systemd do
-  include Capistrano::Serviceman::ServiceTools
+  include Capistrano::Serviceman::Tools
 
   desc "Upload systemd .service file and refresh daemon"
   task :install => 'config:local_dirs' do

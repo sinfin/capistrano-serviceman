@@ -1,38 +1,78 @@
-# Capistrano::Serviceman
+# Capistrano Serviceman
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/capistrano/serviceman`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Capistrano Serviceman helps you to manage Puma and Sidekiq
+processes using Systemd and watch them by Monit.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your Gemfile:
 
 ```ruby
 gem 'capistrano-serviceman'
 ```
 
-And then execute:
+and this to Capfile: 
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install capistrano-serviceman
+```ruby
+require 'capistrano/serviceman'
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Create Systemd `.service` and `monitrc` templates using generator:
 
-## Development
+    rails generate capistrano:serviceman
+    
+This will create Puma and Sidekiq template files for Monit and Systemd
+in both `staging` and `production` environment. You will find them in
+`config/deploy/templates/<stage>`.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+**You have to rename directories to match your server role names.**
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Directories & Filenames ~ Roles & Services
+
+The directory structure and template filenames define on which role
+is deployed which service. By default Pumas are installed on `app` 
+machines while Sidekiqs are deployed on `worker` machines. You will 
+see a tree like this for production (same for `staging`):
+
+    production/
+    ├── app
+    │   ├── puma_monitrc.erb
+    │   └── puma.service.erb
+    └── worker
+        ├── sidekiq_monitrc.erb
+        └── sidekiq.service.erb
+
+You can change what is deployed on what role by simply renaming
+files or directories. See the examples below.
+
+## Examples
+
+Do you want everything on one machine? No problem. Here is a setup
+for 3 Sidekiqs and one Puma. Sidekiqs are ignored by Monit:
+
+    production
+        └── app
+            ├── puma_monitrc.erb
+            ├── puma.service.erb
+            ├── sidekiq_1.service.erb
+            ├── sidekiq_2.service.erb
+            └── sidekiq_3.service.erb
+
+## Disclaimer
+
+I am not a sysadmin, Linux expert or anything like this. I am
+doing devops just because I have to (I enjoy it don't get me 
+wrong!) But please bare in mind that all the default configs
+are **by no means best practices**. They are just _practices_.
+They keep our [cogwheels](https://www.squared.one) spinning
+though ;D
+
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/HakubJozak/capistrano-serviceman. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/HakubJozak/capistrano-serviceman.
 
 
 ## License

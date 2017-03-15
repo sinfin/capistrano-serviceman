@@ -1,0 +1,37 @@
+# TODO
+# -
+# - set :pidfile in sidekiq.yml
+# - set pidfile in systemd config
+
+# See Inspeqtor's Systemd wiki page for more detail about Systemd:
+# https://github.com/mperham/inspeqtor/wiki/Systemd
+[Unit]
+Description=<%= description %>
+# start us only once the network and logging subsystems are available,
+After=syslog.target network.target
+
+# See these pages for lots of options:
+# http://0pointer.de/public/systemd-man/systemd.service.html
+# http://0pointer.de/public/systemd-man/systemd.exec.html
+[Service]
+Type=simple
+
+User=<%= role.user %>
+Group=<%= role.user %>
+UMask=0002
+WorkingDirectory=<%= current_path %>
+
+ExecStart=<%= rvm_do "bundle exec sidekiq -e #{fetch(:stage)}", role %> 
+ExecStop=<%= rvm_do "bundle exec sidekiqctl stop #{shared_path}/tmp/pids/sidekiq.pid", role %> 
+
+# if we crash, restart
+RestartSec=1
+Restart=on-failure
+
+# output goes to /var/log/syslog
+# SyslogIdentifier=<% name %>
+# StandardOutput=syslog
+# StandardError=syslog
+
+
+#--------------------------

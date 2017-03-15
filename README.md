@@ -1,7 +1,9 @@
 # Capistrano Serviceman
 
 Capistrano Serviceman helps you to manage Puma and Sidekiq
-processes using Systemd and watch them by Monit.
+processes using Systemd and watch them by Monit. Configuration
+is driven by templates directory structure, making it very
+easy to adjust all to your liking.
 
 ## Installation
 
@@ -25,7 +27,8 @@ Create Systemd `.service` and `monitrc` templates using generator:
     
 This will create Puma and Sidekiq template files for Monit and Systemd
 in both `staging` and `production` environment. You will find them in
-`config/deploy/templates/<stage>`.
+`config/deploy/templates/<stage>`. You can limit the stages and roles
+by `--types` and `--stages` switches.
 
 **You have to rename directories to match your server role names.**
 
@@ -71,6 +74,11 @@ though ;D
 
 
 ## Contributing
+
+Serviceman is WIP and it is suited to our purposes. There
+are no settings, switched, everyting is run via `sudo` etc.
+Please submit pull requests polishing those rough edges
+if you find the gem useful!
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/HakubJozak/capistrano-serviceman.
 

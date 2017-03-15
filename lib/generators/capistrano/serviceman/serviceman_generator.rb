@@ -1,5 +1,5 @@
 require 'fileutils'
-require_relative '../../../../capistrano-serviceman'
+
 
 class Capistrano::ServicemanGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)

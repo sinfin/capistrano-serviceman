@@ -1,4 +1,4 @@
-module Capistrano::Rails::Services::Tools
+module Capistrano::Serviceman::Tools
   private
 
   def config_dir

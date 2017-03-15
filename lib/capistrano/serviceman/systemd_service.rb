@@ -1,6 +1,6 @@
 require 'active_support/core_ext/module/delegation'
 
-class Capistrano::Rails::Services::Systemd
+class Capistrano::Serviceman::SystemdService
 
   attr_reader :name, :capistrano
   delegate :current_path, :shared_path, :fetch, to: :capistrano

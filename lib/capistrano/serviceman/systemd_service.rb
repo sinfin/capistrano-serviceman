@@ -72,7 +72,7 @@ class Capistrano::Serviceman::SystemdService
   def rvm_do(cmd, role)
     user = role.user
     path = fetch(:rvm_path).sub('~', "/home/#{user}")
-    "#{path}/bin/rvm #{fetch(:rvm_ruby_version)} do #{cmd}"
+    "/bin/bash -c 'cd #{current_path} ; #{path}/bin/rvm #{fetch(:rvm_ruby_version)} do #{cmd}'"
   end
 
   # def rvm_do_as_remote_user(cmd, role)

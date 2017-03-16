@@ -1,6 +1,5 @@
 check process <%= monit_process %> with pidfile <%= fetch(:puma_pid) %>
-  if memory > 700 MB for 3 cycles then restart
+  if memory > 850 MB for 3 cycles then restart
 
   restart program = "<%= rvm_do("bundle exec pumactl -S #{fetch(:puma_state)} phased-restart", role) %>"
           AS USER <%= role.user %>
-          

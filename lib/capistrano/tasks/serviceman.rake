@@ -1,6 +1,13 @@
 require 'capistrano/serviceman/systemd_service'
 require 'capistrano/serviceman/tools'
 
+namespace :load do
+  task :defaults do
+    include Capistrano::Serviceman::Tools
+    set :serviceman_config_dir, -> { config_dir }
+  end
+end
+
 
 namespace :serviceman do
   include Capistrano::Serviceman::Tools

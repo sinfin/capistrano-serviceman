@@ -32,6 +32,23 @@ by `--types` and `--stages` switches.
 
 **You have to rename directories to match your server role names.**
 
+Use capistrano tasks to upload the configuration and enable 
+defined services and their monitoring:
+
+    cap production serviceman:install:systemd
+    cap production serviceman:install:monit
+    
+Manage them safely from home:    
+
+    # prints Systemd and Monit status of Puma service
+    cap production serviceman:puma:status
+
+    # start service and monitoring
+    cap production serviceman:puma:start    
+
+    # unmonit and stop the service
+    cap production serviceman:puma:stop    
+
 ## Directories & Filenames ~ Roles & Services
 
 The directory structure and template filenames define on which role

@@ -66,7 +66,7 @@ class Capistrano::Serviceman::SystemdService
   private
 
   def config_dir
-    fetch(:service_config_dir)
+    fetch(:serviceman_config_dir)
   end
 
   def rvm_do(cmd, role)

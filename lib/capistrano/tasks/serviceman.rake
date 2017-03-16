@@ -29,6 +29,13 @@ namespace :serviceman do
         end
       end
 
+      desc 'Restart process using Monit definition (tries USR signals for Puma)'
+      task :log do
+	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
+          cap.execute "sudo journalctl -f -u #{service.name}"
+        end
+      end
+
       desc "Start #{type.capitalize} Systemd service"
       task :start do
 	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|

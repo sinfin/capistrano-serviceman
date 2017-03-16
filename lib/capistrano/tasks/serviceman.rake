@@ -18,9 +18,39 @@ namespace :serviceman do
       task :status do
 	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
           cap.execute "sudo systemctl status #{service.name}"
-          cap.execute "sudo monit status #{service.monit_process}"  
+          cap.execute "sudo monit status #{service.monit_process}"
         end
       end
+
+      desc 'Restart process using Monit definition (tries USR signals for Puma)'
+      task :restart do
+	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
+          cap.execute "sudo monit restart #{service.monit_process}"
+        end
+      end
+
+      desc "Start #{type.capitalize} Systemd service"
+      task :start do
+	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
+          cap.execute "sudo systemctl start #{service.name}"
+          cap.execute "sudo monit monitor #{service.monit_process}"
+        end
+      end
+
+      desc "Stop #{type.capitalize} Systemd service"
+      task :stop do
+	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
+          cap.execute "sudo monit unmonitor #{service.monit_process}"
+          cap.execute "sudo systemctl start #{service.name}"
+        end
+      end      
+      
+      desc 'Restart process using Systemd (ExecStop & ExecStart)'
+      task :systemd_restart do
+	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
+          cap.execute "sudo systemctl restart #{service.name}"
+        end
+      end      
     end
   end
 

@@ -10,7 +10,8 @@ namespace :serviceman do
       desc "Print Systemd and Monit status of #{type.capitalize} service"
       task :status do
 	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
-	  puts  service.name
+          cap.execute "sudo systemctl status #{service.name}"
+          cap.execute "sudo monit status #{service.monit_process}"  
         end
       end
     end

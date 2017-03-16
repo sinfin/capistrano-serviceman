@@ -2,7 +2,7 @@ require 'active_support/core_ext/module/delegation'
 
 class Capistrano::Serviceman::SystemdService
 
-  attr_reader :name, :capistrano
+  attr_reader :name, :type, :capistrano
   delegate :current_path, :shared_path, :fetch, to: :capistrano
 
   def initialize(type:, role_name:, app:, capistrano:)

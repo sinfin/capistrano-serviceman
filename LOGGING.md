@@ -14,11 +14,13 @@ Go to `puma.rb` config file and remote any stdout redirection:
 
 ## Nginx
 
-(http://stackoverflow.com/questions/22541333/have-nginx-access-log-and-error-log-log-to-stdout-and-stderr-of-master-process)
+I haven't manage to redirect nginx access log to STDOUT, although [some resources
+claim it is possible](http://stackoverflow.com/questions/22541333/have-nginx-access-log-and-error-log-log-to-stdout-and-stderr-of-master-process). You can at least redirect STDERR to journal by using this:
 
     error_log stderr info;
 
     http {
-      access_log /dev/stdout;
+      # didn't work for me
+      # access_log /dev/stdout;
       ...
     }

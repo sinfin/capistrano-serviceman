@@ -48,16 +48,18 @@ namespace :serviceman do
       task :stop do
 	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
           cap.execute "sudo monit unmonitor #{service.monit_process}"
-          cap.execute "sudo systemctl start #{service.name}"
+          cap.execute "sudo systemctl stop #{service.name}"
         end
-      end      
-      
+      end
+
       desc 'Restart process using Systemd (ExecStop & ExecStart)'
       task :systemd_restart do
 	on_each_role_and_service(service_filter: type) do |cap, service, role, rolename|
+          cap.execute "sudo monit unmonitor #{service.monit_process}"
           cap.execute "sudo systemctl restart #{service.name}"
+          cap.execute "sudo monit monitor #{service.monit_process}"
         end
-      end      
+      end
     end
   end
 
